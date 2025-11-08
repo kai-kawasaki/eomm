@@ -3,6 +3,7 @@
 #include <random>
 #include <chrono>
 #include <string>
+#include <algorithm>
 
 #include "User.h"
 #include "MergeSort.h"
@@ -24,21 +25,17 @@ std::vector<User> generateDataset(int size) {
     return users;
 }
 
-// Function to print the user list
-void printUsers(const std::string& title, const std::vector<User>& users) {
-    std::cout << "--- " << title << " ---\n";
-    for (const auto& user : users) {
-        std::cout << "Name: " << user.name << ", Rank: " << user.rank << "\n";
-    }
-    std::cout << "\n";
+// Function to validate if the data is sorted
+bool validateSort(const std::vector<User>& users) {
+    return std::is_sorted(users.begin(), users.end());
 }
 
 int main() {
-    const int DATASET_SIZE = 15;
+    const int DATASET_SIZE = 100000;
 
     // 1. Generate the dataset
+    std::cout << "Generating a dataset with " << DATASET_SIZE << " users...\n\n";
     auto originalDataset = generateDataset(DATASET_SIZE);
-    printUsers("Original Unsorted Data", originalDataset);
 
     // 2. Create copies for each sort
     auto dataForMergeSort = originalDataset;
@@ -51,7 +48,11 @@ int main() {
     auto endTimeMerge = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double, std::micro> durationMerge = endTimeMerge - startTimeMerge;
 
-    printUsers("Data after Merge Sort", dataForMergeSort);
+    if (validateSort(dataForMergeSort)) {
+        std::cout << "Merge Sort validation successful: Data is sorted correctly.\n";
+    } else {
+        std::cout << "Merge Sort validation FAILED: Data is not sorted correctly.\n";
+    }
     std::cout << "Merge Sort took " << durationMerge.count() << " microseconds.\n\n";
 
     // 4. Test and time Quick Sort
@@ -61,7 +62,11 @@ int main() {
     auto endTimeQuick = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double, std::micro> durationQuick = endTimeQuick - startTimeQuick;
 
-    printUsers("Data after Quick Sort", dataForQuickSort);
+    if (validateSort(dataForQuickSort)) {
+        std::cout << "Quick Sort validation successful: Data is sorted correctly.\n";
+    } else {
+        std::cout << "Quick Sort validation FAILED: Data is not sorted correctly.\n";
+    }
     std::cout << "Quick Sort took " << durationQuick.count() << " microseconds.\n\n";
 
     return 0;
