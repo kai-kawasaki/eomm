@@ -18,7 +18,7 @@ void merge(RandomIt first, RandomIt middle, RandomIt last)
     auto right_it = right_half.begin();
     auto result_it = first;
 
-    // Merge the two halves back into the original range
+    // merge the two halves back into the original range
     while (left_it != left_half.end() && right_it != right_half.end()) {
         if (*left_it < *right_it) {
             *result_it = *left_it;
@@ -30,10 +30,10 @@ void merge(RandomIt first, RandomIt middle, RandomIt last)
         ++result_it;
     }
 
-    // Copy any remaining elements from the left half
+    // copy any remaining elements from the left half
     std::copy(left_it, left_half.end(), result_it);
 
-    // Copy any remaining elements from the right half
+    // copy remaining elements from right
     std::copy(right_it, right_half.end(), result_it);
 }
 

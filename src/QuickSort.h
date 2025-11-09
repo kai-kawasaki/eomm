@@ -2,7 +2,7 @@
 
 #include <vector>
 #include <iterator>
-#include <algorithm> // For std::iter_swap
+#include <algorithm>
 
 template<typename RandomIt>
 RandomIt partition(RandomIt first, RandomIt last)
